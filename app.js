@@ -17,7 +17,7 @@ var tempGAME = {};
 var initGAME = {};
 var [t0, t1, t2] = [0, 0, 0];
 const colors = ["#E5E5E5", "#F60000", "#FF8C00", "#FFEE00", "#4DE94C", "#3783FF", "#4815AA"];
-const winningAudio = new Audio("C:/Users/suhai/Documents/DEV/Colour Tiles/Media/victory_theme.mp3");
+const winningAudio = new Audio("Media/victory_theme.mp3");
 
 class player {
    constructor() {
