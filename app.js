@@ -115,7 +115,7 @@ class game {
             JSON.stringify(this.gameArray.slice(1, 5)[0].slice(1, 5)) === JSON.stringify(this.targetArray[0]) &&
             JSON.stringify(this.gameArray.slice(1, 5)[1].slice(1, 5)) === JSON.stringify(this.targetArray[1]) &&
             JSON.stringify(this.gameArray.slice(1, 5)[2].slice(1, 5)) === JSON.stringify(this.targetArray[2]) &&
-            JSON.stringify(this.gameArray.slice(1, 5)[2].slice(1, 5)) === JSON.stringify(this.targetArray[3])
+            JSON.stringify(this.gameArray.slice(1, 5)[3].slice(1, 5)) === JSON.stringify(this.targetArray[3])
          ) {
             return true;
          }
@@ -327,7 +327,8 @@ function saveHighScore(player, highScores, players) {
    }
 }
 
-function viewHighScores(players) {
+function viewHighScores() {
+   players = GAME.players;
    viewScoresDOM.style.display = "none";
    result.style.display = "none";
    highScoresContainer.style.display = "flex";
