@@ -229,7 +229,6 @@ const showResults = () => {
    heading.style.display = "none";
    if (GAME.players == 1) {
       result.innerText = `You finised! Score = ${player1.score}`;
-      console.log(`Call to doSomething took ${t0}, ${t2} milliseconds.`);
    } else {
       if (player2.score > player1.score) {
          result.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player2.name} Wins`;
@@ -238,7 +237,6 @@ const showResults = () => {
       } else {
          result.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player1.name} Wins`;
       }
-      console.log(`Call to doSomething took ${t0}, ${t1}, ${t2} milliseconds.`);
    }
    restart.style.display = "flex";
    viewScoresDOM.style.display = "flex";
@@ -282,7 +280,6 @@ function reset() {
 }
 
 function setScores() {
-   console.log("GAME.players:", GAME.players);
    checkHighScore(player1.score, GAME.players, player1);
    if (GAME.players === 2) {
       checkHighScore(player2.score, GAME.players, player2);
@@ -290,7 +287,6 @@ function setScores() {
 }
 
 function checkHighScore(score, players, player) {
-   console.log("players:", players);
    var highScores = [];
    var lowestScore;
    if (!JSON.parse(localStorage.getItem("TWO_PLAYER_HS") === null) && players === 2) {
@@ -304,7 +300,6 @@ function checkHighScore(score, players, player) {
       lowestScore = highScores[9] ? highScores[9].score : 0;
    }
 
-   console.log(highScores);
    if (score > lowestScore) {
       saveHighScore(player, highScores, players);
    }
