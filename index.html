@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Colour Tiles</title>
+      <link rel="stylesheet" href="styles.css" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet" />
+   </head>
+   <body>
+      <div class="title">COLOUR TILES</div>
+      <div id="menu">
+         <div class="option-container">
+            <label for="players-select">Select No. of Players:</label>
+            <select name="players" id="players-select">
+               <option value="single">Single Player</option>
+               <option value="multi">2 Player</option>
+            </select>
+         </div>
+         <div class="option-container">
+            <label for="difficulty-select">Select difficulty:</label>
+            <select name="difficulty" id="difficulty-select">
+               <option value="medium">Medium</option>
+               <option value="hard">Hard</option>
+            </select>
+         </div>
+         <button id="play-button" onclick="getNames();">Play</button>
+      </div>
+      <div id="name-selection"></div>
+      <div id="game">
+         <p id="heading">Target Board:</p>
+         <div id="target-board"></div>
+         <p id="info">Play here:</p>
+         <div id="game-board"></div>
+         <div id="reset">
+            <button onclick="reset();">Reset</button>
+         </div>
+         <div id="result"></div>
+         <div id="view-scores">
+            <button onclick="viewHighScores();">View Score</button>
+         </div>
+         <div id="high-scores-container">
+            <h1>High Scores</h1>
+            <ol id="high-scores"></ol>
+         </div>
+      </div>
+      <div id="restart">
+         <button onclick="location.reload();">Play Again</button>
+      </div>
+      <script src="app.js"></script>
+   </body>
+</html>
