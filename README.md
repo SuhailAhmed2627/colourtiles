@@ -1,4 +1,4 @@
-# Colour Tiles
+# Colour Tiles🌈
 A simple game.
 [Click here to view the Page](https://suhailahmed2627.github.io/colourtiles)
 
