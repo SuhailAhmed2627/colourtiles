@@ -1,24 +1,29 @@
-var targetBoard = document.getElementById("target-board");
-var gameBoard = document.getElementById("game-board");
-var result = document.getElementById("result");
-var info = document.getElementById("info");
-var restart = document.getElementById("restart");
-var menu = document.getElementById("menu");
+// DOM Variables
+var targetBoardDOM = document.getElementById("target-board");
+var gameBoardDOM = document.getElementById("game-board");
+var resultDOM = document.getElementById("result");
+var infoDOM = document.getElementById("info");
+var restartDOM = document.getElementById("restart");
+var menuDOM = document.getElementById("menu");
 var heading = document.getElementById("heading");
-var playersSelect = document.getElementById("players-select");
-var difficultySelect = document.getElementById("difficulty-select");
-var nameSelection = document.getElementById("name-selection");
-var resetButton = document.getElementById("reset");
-var highScoresContainer = document.getElementById("high-scores-container");
-var highScoresList = document.getElementById("high-scores");
+var playersSelectDOM = document.getElementById("players-select");
+var difficultySelectDOM = document.getElementById("difficulty-select");
+var nameSelectionDOM = document.getElementById("name-selection");
+var resetButtonDOM = document.getElementById("reset");
+var highScoresContainerDOM = document.getElementById("high-scores-container");
+var highScoresListDOM = document.getElementById("high-scores");
 var viewScoresDOM = document.getElementById("view-scores");
+
 var tile;
-var tempGAME = {};
-var initGAME = {};
-var [t0, t1, t2] = [0, 0, 0];
+var tempGAME = {}; // To store the GAME temporarily
+var initGAME = {}; // To store the GAME's 1st Version
+
+var [t0, t1, t2] = [0, 0, 0]; // Time Stamps
+
 const colors = ["#E5E5E5", "#F60000", "#FF8C00", "#FFEE00", "#4DE94C", "#3783FF", "#4815AA"];
 const winningAudio = new Audio("Media/victory_theme.mp3");
 
+// Class Player
 class player {
    constructor() {
       this.moves = 0;
@@ -26,8 +31,9 @@ class player {
       this.name = "";
    }
 }
-var [player1, player2] = [new player(), new player()];
+var [player1, player2] = [new player(), new player()]; // 2-Players Created from Class Player
 
+// Class Game
 class game {
    constructor(board, players) {
       this.played = 0;
@@ -38,6 +44,7 @@ class game {
       this.gameArray = [];
    }
 
+   // Function to create Target Array: An Array that represents the Target Board
    createTargetArray() {
       const dim = this.board === 5 ? 3 : 4;
       let targetArray = new Array(dim);
@@ -50,7 +57,9 @@ class game {
       this.targetArray = targetArray;
    }
 
+   // Function to create Game Array: An Array that represents the Game Board
    createGameArray() {
+      // Creation
       let dim = this.board;
       let gameArray = new Array(dim);
       for (let i = 0; i < gameArray.length; i++) {
@@ -63,7 +72,11 @@ class game {
             }
          }
       }
+
+      // Creating Empty tile
       gameArray[0][0] = 0;
+
+      // Shuffling the Array
       for (let i = 0; i < gameArray.length; i++) {
          for (let j = 0; j < gameArray[i].length; j++) {
             var i1 = Math.floor(Math.random() * gameArray.length);
@@ -76,6 +89,7 @@ class game {
       this.gameArray = gameArray;
    }
 
+   //When a tile is clicked, this Fucntion comes into Play
    moveTile(x, y) {
       var [i, j] = [x, y];
       var selectedTile = document.getElementById(`g-tile-${i},${j}`);
@@ -90,6 +104,7 @@ class game {
       }
    }
 
+   //A simple fuction to switch tile
    switchTile(i, j, a, b, selectedTile) {
       document.getElementById(`g-tile-${i + a},${j + b}`).style.backgroundColor = colors[this.gameArray[i][j]];
       document.getElementById(`g-tile-${i + a},${j + b}`).classList.add("on-hover");
@@ -100,6 +115,7 @@ class game {
       this.moves++;
    }
 
+   // Function to check if the game is over
    isGameFinished() {
       if (this.board === 5) {
          if (
@@ -123,6 +139,7 @@ class game {
       }
    }
 
+   // Resets the Game to play Again
    reset(initGAME) {
       this.gameArray = initGAME.gameArray;
       this.targetArray = initGAME.targetArray;
@@ -130,10 +147,11 @@ class game {
    }
 }
 
+// Function to get names from the user, erases the start menu
 function getNames() {
-   menu.style.display = "none";
-   nameSelection.style.display = "flex";
-   var players = playersSelect.options[playersSelect.selectedIndex].text === "Single Player" ? 1 : 2;
+   menuDOM.style.display = "none";
+   nameSelectionDOM.style.display = "flex";
+   var players = playersSelectDOM.options[playersSelectDOM.selectedIndex].text === "Single Player" ? 1 : 2;
 
    for (let i = 1; i <= players; i++) {
       var input = document.createElement("input");
@@ -143,24 +161,25 @@ function getNames() {
       input.type = "text";
       input.id = `player-${i}-name`;
       input.setAttribute("autocomplete", "off");
-      nameSelection.appendChild(label);
-      nameSelection.appendChild(input);
+      nameSelectionDOM.appendChild(label);
+      nameSelectionDOM.appendChild(input);
    }
    var button = document.createElement("button");
    button.onclick = init;
    button.innerText = "Start";
-   nameSelection.appendChild(button);
+   nameSelectionDOM.appendChild(button);
 }
 
+// Enters the users into the Game
 const init = () => {
-   nameSelection.style.display = "none";
+   nameSelectionDOM.style.display = "none";
    players = 1;
    player1.name = document.getElementById("player-1-name").value;
-   if (playersSelect.options[playersSelect.selectedIndex].text === "2 Player") {
+   if (playersSelectDOM.options[playersSelectDOM.selectedIndex].text === "2 Player") {
       players = 2;
       player2.name = document.getElementById("player-2-name").value;
    }
-   var board = difficultySelect.options[difficultySelect.selectedIndex].text === "Medium" ? 5 : 6;
+   var board = difficultySelectDOM.options[difficultySelectDOM.selectedIndex].text === "Medium" ? 5 : 6;
    var GAME = new game(board, players);
    t0 = performance.now();
 
@@ -173,17 +192,18 @@ const init = () => {
    setGame(GAME, board);
 };
 
+// Function that sets the game
 const setGame = (GAME, board) => {
    const add = board === 5 ? 0 : 1;
-   while (targetBoard.firstChild) targetBoard.removeChild(targetBoard.firstChild);
-   while (gameBoard.firstChild) gameBoard.removeChild(gameBoard.firstChild);
-   targetBoard.style.display = "grid";
+   while (targetBoardDOM.firstChild) targetBoardDOM.removeChild(targetBoardDOM.firstChild);
+   while (gameBoardDOM.firstChild) gameBoardDOM.removeChild(gameBoardDOM.firstChild);
+   targetBoardDOM.style.display = "grid";
 
    if (board === 6) {
-      targetBoard.style.width = "225px";
-      targetBoard.style.height = "225px";
-      targetBoard.style.gridTemplateRows = "50px 50px 50px 50px";
-      targetBoard.style.gridTemplateColumns = "50px 50px 50px 50px";
+      targetBoardDOM.style.width = "225px";
+      targetBoardDOM.style.height = "225px";
+      targetBoardDOM.style.gridTemplateRows = "50px 50px 50px 50px";
+      targetBoardDOM.style.gridTemplateColumns = "50px 50px 50px 50px";
    }
    for (let i = 0; i < GAME.targetArray.length; i++) {
       for (let j = 0; j < GAME.targetArray[i].length; j++) {
@@ -191,16 +211,16 @@ const setGame = (GAME, board) => {
          tile.classList.add("tile");
          tile.id = `t-tile-${i},${j}`;
          tile.style.backgroundColor = colors[GAME.targetArray[i][j]];
-         targetBoard.appendChild(tile);
+         targetBoardDOM.appendChild(tile);
       }
    }
 
-   gameBoard.style.display = "grid";
+   gameBoardDOM.style.display = "grid";
    if (board === 6) {
-      gameBoard.style.width = "335px";
-      gameBoard.style.height = "335px";
-      gameBoard.style.gridTemplateRows = "50px 50px 50px 50px 50px 50px";
-      gameBoard.style.gridTemplateColumns = "50px 50px 50px 50px 50px 50px";
+      gameBoardDOM.style.width = "335px";
+      gameBoardDOM.style.height = "335px";
+      gameBoardDOM.style.gridTemplateRows = "50px 50px 50px 50px 50px 50px";
+      gameBoardDOM.style.gridTemplateColumns = "50px 50px 50px 50px 50px 50px";
    }
 
    for (let i = 0; i < GAME.gameArray.length; i++) {
@@ -216,33 +236,20 @@ const setGame = (GAME, board) => {
          }
          tile.setAttribute("onclick", `playGame(${i},${j})`);
          tile.style.backgroundColor = colors[GAME.gameArray[i][j]];
-         gameBoard.appendChild(tile);
+         gameBoardDOM.appendChild(tile);
       }
    }
 };
 
-const showResults = () => {
-   resetButton.style.display = "none";
-   gameBoard.style.display = "none";
-   info.style.display = "none";
-   targetBoard.style.display = "none";
-   heading.style.display = "none";
-   if (GAME.players == 1) {
-      result.innerText = `You finised! Score = ${player1.score}`;
-   } else {
-      if (player2.score > player1.score) {
-         result.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player2.name} Wins`;
-      } else if (player1.score === player2.score) {
-         result.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, its a Tie`;
-      } else {
-         result.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player1.name} Wins`;
-      }
-   }
-   restart.style.display = "flex";
-   viewScoresDOM.style.display = "flex";
-   setScores();
-};
+// Function to reset the board to play from the begining
+function reset() {
+   tempGAME.gameArray = JSON.parse(JSON.stringify(initGAME.gameArray));
+   tempGAME.moves = 0;
+   info.innerText = `Moves: ${tempGAME.moves}`;
+   setGame(GAME, GAME.board);
+}
 
+// Function that is called eveytime one clicks a time
 const playGame = (x, y) => {
    GAME = tempGAME;
    GAME.moveTile(x, y);
@@ -266,18 +273,33 @@ const playGame = (x, y) => {
             player1.score = Math.ceil(1000000000 / ((t2 - t0) * GAME.moves));
          }
          showResults();
-         restart.style.display = "flex";
+         restartDOM.style.display = "flex";
          winningAudio.play();
       }
    }
 };
 
-function reset() {
-   tempGAME.gameArray = JSON.parse(JSON.stringify(initGAME.gameArray));
-   tempGAME.moves = 0;
-   info.innerText = `Moves: ${tempGAME.moves}`;
-   setGame(GAME, GAME.board);
-}
+const showResults = () => {
+   resetButtonDOM.style.display = "none";
+   gameBoardDOM.style.display = "none";
+   info.style.display = "none";
+   targetBoardDOM.style.display = "none";
+   heading.style.display = "none";
+   if (GAME.players == 1) {
+      resultDOM.innerText = `You finised! Score = ${player1.score}`;
+   } else {
+      if (player2.score > player1.score) {
+         resultDOM.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player2.name} Wins`;
+      } else if (player1.score === player2.score) {
+         resultDOM.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, its a Tie`;
+      } else {
+         resultDOM.innerText = `${player1.name}'s Score: ${player1.score} and ${player2.name}'s Score: ${player2.score}, ${player1.name} Wins`;
+      }
+   }
+   restartDOM.style.display = "flex";
+   viewScoresDOM.style.display = "flex";
+   setScores();
+};
 
 function setScores() {
    checkHighScore(player1.score, GAME.players, player1);
@@ -330,13 +352,13 @@ function saveHighScore(player, highScores, players) {
 function viewHighScores() {
    players = GAME.players;
    viewScoresDOM.style.display = "none";
-   result.style.display = "none";
-   highScoresContainer.style.display = "flex";
+   resultDOM.style.display = "none";
+   highScoresContainerDOM.style.display = "flex";
    if (players === 2) {
       var highScores = JSON.parse(localStorage.getItem("TWO_PLAYER_HS")) ?? [];
    } else {
       var highScores = JSON.parse(localStorage.getItem("ONE_PLAYER_HS")) ?? [];
    }
 
-   highScoresList.innerHTML = highScores.map((score) => `<li>${score.score} - ${score.name}`).join("");
+   highScoresListDOM.innerHTML = highScores.map((score) => `<li>${score.score} - ${score.name}`).join("");
 }
