@@ -1,5 +1,5 @@
 # Colour Tiles🕹️
-A simple game.
+A simple puzzle game.
 [Click here to view the Page](https://suhailahmed2627.github.io/colourtiles)
 
 ## Why?
