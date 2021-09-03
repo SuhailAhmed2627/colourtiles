@@ -20,7 +20,7 @@ var initGAME = {}; // To store the GAME's 1st Version
 
 var [t0, t1, t2] = [0, 0, 0]; // Time Stamps
 
-const colors = ["#E5E5E5", "#F60000", "#FF8C00", "#FFEE00", "#4DE94C", "#3783FF", "#4815AA"];
+const colors = ["#E5E5E5", "#F60000", "#FF8C00", "#FFEE00", "#4DE94C", "#3783FF", "#4815AA"]; // Colors for the game
 const winningAudio = new Audio("Media/victory_theme.mp3");
 
 // Class Player
